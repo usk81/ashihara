@@ -6,27 +6,27 @@
   },
   {
     "name": "documentation",
-    "color": "Improvements or additions to documentation",
-    "description": "#0075ca"
+    "color": "0075ca",
+    "description": "Improvements or additions to documentation"
   },
   {
     "name": "duplicate",
-    "color": "#cfd3d7",
+    "color": "cfd3d7",
     "description": "This issue or pull request already exists"
   },
   {
     "name": "enhancement",
-    "color": "#a2eeef",
+    "color": "a2eeef",
     "description": "New feature or request"
   },
   {
     "name": "good first issue",
-    "color": "#7057ff",
+    "color": "7057ff",
     "description": "Good for newcomers"
   },
   {
     "name": "help wanted",
-    "color": "#008672",
+    "color": "008672",
     "description": "Extra attention is needed"
   },
   {
