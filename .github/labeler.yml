@@ -1,0 +1,5 @@
+shared:
+  - shared/**
+
+'service:holidays':
+  - services/holidays/**
