@@ -1,0 +1,42 @@
+name: preliminary review (services/holidays)
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'services/holidays/**'
+
+jobs:
+  golangci:
+    name: linter
+    strategy:
+      matrix:
+        go-version: [1.22.x]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          # Required: the version of golangci-lint is required and must be specified without patch version: we always use the latest patch version.
+          version: latest
+          # Optional: working directory, useful for monorepos
+          working-directory: services/holidays
+          # Optional: golangci-lint command line arguments.
+          args: --config=../../.golangci.yml
+  test:
+    name: test
+    strategy:
+      matrix:
+        go-version: [1.22.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
+      with:
+        go-version: ${{ matrix.go-version }}
+    - name: Test
+      run: cd services/holidays && go test -v ./...

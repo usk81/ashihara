@@ -1,0 +1,14 @@
+version: 2
+updates:
+- package-ecosystem: gomod
+  directory: "/shared"
+  schedule:
+    interval: daily
+    time: "00:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: gomod
+  directory: "/services/holidays"
+  schedule:
+    interval: daily
+    time: "00:00"
+  open-pull-requests-limit: 10
