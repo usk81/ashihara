@@ -2,6 +2,7 @@ package crawler
 
 import (
 	"context"
+	"io"
 	"log/slog"
 	"net/http"
 
@@ -29,6 +30,22 @@ const (
 	holidayCsvURL = "https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv"
 )
 
+var (
+	holidayNameConvertList = map[string]string{
+		"休日（祝日扱い）":     "休日",
+		"体育の日（スポーツの日）": "体育の日",
+	}
+)
+
+func convertHolidayName(s string) string {
+	for b, a := range holidayNameConvertList {
+		if s == b {
+			return a
+		}
+	}
+	return s
+}
+
 func Holidays(c *http.Client, logger *slog.Logger) repository.Crawler {
 	return &holidayImpl{
 		client: c,
@@ -37,23 +54,12 @@ func Holidays(c *http.Client, logger *slog.Logger) repository.Crawler {
 }
 
 func (d *holidayImpl) Crawl(ctx context.Context) (output []*repository.HolidayEntity, err error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, holidayCsvURL, http.NoBody)
+	res, err := d.request(ctx, http.MethodGet, holidayCsvURL, http.NoBody)
 	if err != nil {
 		d.logger.ErrorContext(
 			ctx,
 			"holidays.Crawl",
-			slog.String("action", "http.NewRequestWithContext"),
-			slog.Any("error", err),
-		)
-		return
-	}
-
-	res, err := d.client.Do(req)
-	if err != nil {
-		d.logger.ErrorContext(
-			ctx,
-			"holidays.Crawl",
-			slog.String("action", "client.Do"),
+			slog.String("action", "request"),
 			slog.Any("error", err),
 		)
 		return
@@ -78,12 +84,7 @@ func (d *holidayImpl) Crawl(ctx context.Context) (output []*repository.HolidayEn
 
 	output = make([]*repository.HolidayEntity, 0, len(hs))
 	for _, h := range hs {
-		if h.Name == "休日（祝日扱い）" {
-			h.Name = "休日"
-		} else if h.Name == "体育の日（スポーツの日）" {
-			h.Name = "体育の日"
-		}
-
+		h.Name = convertHolidayName(h.Name)
 		dt, err := jst.Parse("2006/1/2", h.Date)
 		if err != nil {
 			d.logger.ErrorContext(
@@ -100,6 +101,31 @@ func (d *holidayImpl) Crawl(ctx context.Context) (output []*repository.HolidayEn
 			Date: dt,
 			Name: h.Name,
 		})
+	}
+	return
+}
+
+func (d *holidayImpl) request(ctx context.Context, method string, url string, body io.Reader) (res *http.Response, err error) {
+	req, err := http.NewRequestWithContext(ctx, method, url, body)
+	if err != nil {
+		d.logger.ErrorContext(
+			ctx,
+			"holidays.request",
+			slog.String("action", "http.NewRequestWithContext"),
+			slog.Any("error", err),
+		)
+		return
+	}
+
+	res, err = d.client.Do(req)
+	if err != nil {
+		d.logger.ErrorContext(
+			ctx,
+			"holidays.request",
+			slog.String("action", "client.Do"),
+			slog.Any("error", err),
+		)
+		return
 	}
 	return
 }
