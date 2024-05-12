@@ -1,4 +1,4 @@
-name: Release Drafter (services/holidays)
+name: Release Drafter (service/holidays)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'services/holidays/**'
+      - 'service/holidays/**'
 
 permissions:
   contents: read

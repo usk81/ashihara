@@ -1,5 +1,5 @@
-name-template: 'services/holidays/v$RESOLVED_VERSION'
-tag-template: 'services/holidays/v$RESOLVED_VERSION'
+name-template: 'service/holidays/v$RESOLVED_VERSION'
+tag-template: 'service/holidays/v$RESOLVED_VERSION'
 categories:
   - title: 'new features'
     labels:

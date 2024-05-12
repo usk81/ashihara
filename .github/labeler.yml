@@ -4,4 +4,4 @@ shared:
 
 'service:holidays':
 - changed-files:
-  - any-glob-to-any-file: services/holidays/**
+  - any-glob-to-any-file: service/holidays/**
