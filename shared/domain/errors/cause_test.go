@@ -67,7 +67,6 @@ func TestCause_Append(t *testing.T) {
 			},
 			isCause: true,
 		},
-		// {},
 	}
 	for _, tt := range tests {
 		errors.ServiceDomain = tt.args.d
@@ -77,7 +76,8 @@ func TestCause_Append(t *testing.T) {
 				tt.fields.domain,
 				tt.fields.c,
 			)
-			c, ok := e.(*errors.Cause)
+			var c *errors.Cause
+			ok := er.As(e, &c)
 			if ok != tt.isCause {
 				t.Errorf("NewCause() ok = %v, isCause %v", ok, tt.isCause)
 			}
@@ -113,8 +113,9 @@ func TestUnmarshal(t *testing.T) {
 		"foobar",
 		errors.CaseBackendError,
 	)
-	if err := e.(*errors.Cause).UnmarshalJSON([]byte(s)); err != nil {
+	var c *errors.Cause
+	er.As(e, &c)
+	if err := c.UnmarshalJSON([]byte(s)); err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-	fmt.Printf("e : %#v", e)
 }
