@@ -1,5 +1,6 @@
 name-template: 'shared/v$RESOLVED_VERSION'
 tag-template: 'shared/v$RESOLVED_VERSION'
+tag-prefix: shared/v
 categories:
   - title: 'new features'
     labels:
