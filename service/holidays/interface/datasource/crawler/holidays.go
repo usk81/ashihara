@@ -105,7 +105,12 @@ func (d *holidayImpl) Crawl(ctx context.Context) (output []*repository.HolidayEn
 	return
 }
 
-func (d *holidayImpl) request(ctx context.Context, method string, url string, body io.Reader) (res *http.Response, err error) {
+func (d *holidayImpl) request(
+	ctx context.Context,
+	method string,
+	url string,
+	body io.Reader,
+) (res *http.Response, err error) {
 	req, err := http.NewRequestWithContext(ctx, method, url, body)
 	if err != nil {
 		d.logger.ErrorContext(

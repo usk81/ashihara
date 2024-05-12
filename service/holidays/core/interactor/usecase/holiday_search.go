@@ -4,11 +4,12 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/usk81/toolkit/pointer"
+
 	"github.com/usk81/ashihara/service/holidays/core/domain/entity"
 	"github.com/usk81/ashihara/service/holidays/core/domain/errors"
 	"github.com/usk81/ashihara/service/holidays/core/domain/repository"
 	"github.com/usk81/ashihara/service/holidays/core/domain/usecase"
-	"github.com/usk81/toolkit/pointer"
 )
 
 type (
@@ -28,7 +29,13 @@ func SearchHoliday(
 	}
 }
 
-func (u *searchHolidayImpl) Execute(ctx context.Context, input usecase.HolidaySearcherInput) (output *usecase.HolidaySearcherOutput, err error) {
+func (u *searchHolidayImpl) Execute(
+	ctx context.Context,
+	input usecase.HolidaySearcherInput,
+) (
+	output *usecase.HolidaySearcherOutput,
+	err error,
+) {
 	options := repository.SearchOption{
 		Limit:  input.Limit,
 		Offset: input.Offset,
