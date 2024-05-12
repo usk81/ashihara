@@ -1,0 +1,68 @@
+version: '3.8'
+services:
+
+  holidays:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # target: build
+    container_name: holidays
+    environment:
+      - WRITER_DATABASE_HOST=${HOLIDAYS_WRITER_DATABASE_HOST}
+      - WRITER_DATABASE_NAME=${HOLIDAYS_WRITER_DATABASE_NAME:-ashihara}
+      - WRITER_DATABASE_PORT=${HOLIDAYS_WRITER_DATABASE_PORT}
+      - WRITER_DATABASE_USER=${HOLIDAYS_WRITER_DATABASE_USER:-ashihara}
+      - WRITER_DATABASE_PASSWORD=${HOLIDAYS_WRITER_DATABASE_PASSWORD}
+      - READER_DATABASE_HOST=${HOLIDAYS_READER_DATABASE_HOST}
+      - READER_DATABASE_NAME=${HOLIDAYS_READER_DATABASE_NAME:-ashihara}
+      - READER_DATABASE_PORT=${HOLIDAYS_READER_DATABASE_PORT}
+      - READER_DATABASE_USER=${HOLIDAYS_READER_DATABASE_USER:-ashihara}
+      - READER_DATABASE_PASSWORD=${HOLIDAYS_READER_DATABASE_PASSWORD}
+      - DATABASE_MAX_IDLE_CONNECTIONS=${HOLIDAYS_DATABASE_MAX_IDLE_CONNECTIONS}
+      - DATABASE_MAX_OPEN_CONNECTIONS=${HOLIDAYS_DATABASE_MAX_OPEN_CONNECTIONS}
+      - DEBUG_MODE=true
+      - LOG_LEVEL=debug
+    ports:
+      - '5003:80'
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - backend
+      - datastore
+
+  mysql:
+    # build:
+    #   context: ../..
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: mysql
+    command: mysqld --character-set-server=utf8mb4
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER=ashihara
+      - MYSQL_DATABASE=ashihara
+      - MYSQL_PASSWORD
+      - TZ=Asia/Tokyo
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./infrastructure/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./infrastructure/mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ashihara-holiday-db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$MYSQL_ROOT_PASSWORD"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - datastore
+
+networks:
+  backend:
+  datastore:
+volumes:
+  ashihara-holiday-db:
