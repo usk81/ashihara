@@ -204,7 +204,8 @@ func (c *Cause) Append(e error) {
 		return
 	}
 
-	if v, ok := e.(*Cause); ok {
+	var v *Cause
+	if errors.As(e, &v) {
 		c.details = append(c.details, v.details...)
 		return
 	}
@@ -252,9 +253,9 @@ func (c *Cause) IsZero() bool {
 
 // set overwrites error
 func (c *Cause) set(e error) {
-	v, ok := e.(*Cause)
-	if !ok {
-		v = NewCause(e, c.domain, CaseBackendError).(*Cause)
+	var v *Cause
+	if !errors.As(e, &v) {
+		errors.As(NewCause(e, c.domain, CaseBackendError), &v)
 	}
 
 	// c = v <== fail staticcheck. SA4006: this value of `c` is never used

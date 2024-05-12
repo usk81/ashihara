@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"net/http"
 	"os"
@@ -42,7 +43,7 @@ func (srv *Server) Start() {
 	srv.l.Info("Starting server...")
 
 	go func() {
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			srv.l.Error("Could not listen on", slog.String("addr", srv.Addr), slog.Any("error", err))
 		}
 	}()

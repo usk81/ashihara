@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	// MySQL driver
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/usk81/aveo"
 )

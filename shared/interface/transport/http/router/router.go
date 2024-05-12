@@ -64,7 +64,7 @@ func Setup(middlewares ...func(http.Handler) http.Handler) *chi.Mux {
 		r.Use(m)
 	}
 
-	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/health", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	})
 
@@ -129,8 +129,8 @@ func LogRoutes(r *chi.Mux, logger *slog.Logger) {
 }
 
 func loggingPrintRoute(logger *slog.Logger) chi.WalkFunc {
-	return func(method string, route string, handler http.Handler, middlewares ...func(http.Handler) http.Handler) error {
-		route = strings.Replace(route, "/*/", "/", -1)
+	return func(method string, route string, _ http.Handler, _ ...func(http.Handler) http.Handler) error {
+		route = strings.ReplaceAll(route, "/*/", "/")
 		logger.Debug("Registering route", slog.String("method", method), slog.String("route", route))
 		return nil
 	}
