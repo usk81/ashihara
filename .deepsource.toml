@@ -13,7 +13,7 @@ name = "go"
 name = "go"
 
   [analyzers.meta]
-  import_root = "github.com/usk81/ashihara/holidays"
+  import_root = "github.com/usk81/ashihara/service/holidays"
   import_paths = [
     "github.com/usk81/ashihara/service/holidays"
   ]
