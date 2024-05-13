@@ -26,10 +26,16 @@ func FindHoliday(
 	}
 }
 
-func (u *findHolidayImpl) Execute(ctx context.Context, input usecase.HolidayFinderInput) (output *usecase.HolidayFinderOutput, err error) {
+func (u *findHolidayImpl) Execute(
+	ctx context.Context,
+	input usecase.HolidayFinderInput,
+) (
+	output *usecase.HolidayFinderOutput,
+	err error,
+) {
 	r, err := u.finder.FindDefinition(ctx, input.ID)
 	if err != nil {
-		if err == repository.ErrNotExist {
+		if errors.Is(err, repository.ErrNotExist) {
 			return nil, errors.NewCause(err, errors.CaseNotFound)
 		}
 		u.logger.ErrorContext(ctx,

@@ -10,6 +10,7 @@ import (
 	"github.com/jmoiron/sqlx"
 
 	"github.com/usk81/ashihara/service/holidays/core/domain/entity"
+	"github.com/usk81/ashihara/service/holidays/core/domain/errors"
 	"github.com/usk81/ashihara/service/holidays/core/domain/repository"
 	"github.com/usk81/ashihara/shared/interface/datasource/mysql"
 	"github.com/usk81/ashihara/shared/utils/jst"
@@ -84,7 +85,13 @@ func fromDefinition(d *definition) entity.Holiday {
 	}
 }
 
-func (d *holidaysImpl) FindDefinition(ctx context.Context, id int) (output *entity.Holiday, err error) {
+func (d *holidaysImpl) FindDefinition(
+	ctx context.Context,
+	id int,
+) (
+	output *entity.Holiday,
+	err error,
+) {
 	sb := sqlbuilder.NewSelectBuilder()
 	sb.Select("*")
 	sb.From("holiday_difinitions")
@@ -114,6 +121,9 @@ func (d *holidaysImpl) FindDefinition(ctx context.Context, id int) (output *enti
 			),
 			slog.Any("error", err),
 		)
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, repository.ErrNotExist
+		}
 		return nil, err
 	}
 
@@ -121,7 +131,12 @@ func (d *holidaysImpl) FindDefinition(ctx context.Context, id int) (output *enti
 	return &entity, nil
 }
 
-func (d *holidaysImpl) FindAllDefinitions(ctx context.Context) (output []*entity.Holiday, err error) {
+func (d *holidaysImpl) FindAllDefinitions(
+	ctx context.Context,
+) (
+	output []*entity.Holiday,
+	err error,
+) {
 	sb := sqlbuilder.NewSelectBuilder()
 	sb.Select("*")
 	sb.From("holiday_difinitions")
@@ -159,7 +174,13 @@ func (d *holidaysImpl) FindAllDefinitions(ctx context.Context) (output []*entity
 	return
 }
 
-func (d *holidaysImpl) Search(ctx context.Context, options repository.SearchOption) (output []*entity.Holiday, err error) {
+func (d *holidaysImpl) Search(
+	ctx context.Context,
+	options repository.SearchOption,
+) (
+	output []*entity.Holiday,
+	err error,
+) {
 	sb := sqlbuilder.NewSelectBuilder()
 	sb.Select(
 		"holidays.*",
@@ -176,6 +197,7 @@ func (d *holidaysImpl) Search(ctx context.Context, options repository.SearchOpti
 		sb.Offset(options.Offset)
 	}
 	if options.Range != nil {
+		//nolint:gocritic
 		if options.Range.Gte != nil && options.Range.Lte != nil {
 			sb.Where(sb.And(
 				sb.GE("holidays.date", options.Range.Gte),

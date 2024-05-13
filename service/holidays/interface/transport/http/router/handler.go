@@ -31,9 +31,9 @@ func RenderJSON(w http.ResponseWriter, s int, v interface{}) {
 
 // RenderError ...
 func RenderError(w http.ResponseWriter, err error) {
-	ec, ok := err.(*se.Cause)
-	if !ok {
-		ec = errors.NewCause(err, errors.CaseBackendError).(*se.Cause)
+	var ec *se.Cause
+	if !errors.As(err, &ec) {
+		errors.As(errors.NewCause(err, errors.CaseBackendError), &ec)
 	}
 	render.JSON(w, ec.Code(), ec) // nolint: errcheck
 }

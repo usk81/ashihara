@@ -32,7 +32,13 @@ func NewHolidayBloc(
 	}
 }
 
-func (b *holidayBlocImpl) Find(ctx context.Context, input usecase.HolidayFinderInput) (output *usecase.HolidayFinderOutput, err error) {
+func (b *holidayBlocImpl) Find(
+	ctx context.Context,
+	input usecase.HolidayFinderInput,
+) (
+	output *usecase.HolidayFinderOutput,
+	err error,
+) {
 	return b.findUsecase.Execute(ctx, input)
 }
 
@@ -40,6 +46,12 @@ func (b *holidayBlocImpl) Import(ctx context.Context) (err error) {
 	return b.importUsecase.Execute(ctx)
 }
 
-func (b *holidayBlocImpl) Search(ctx context.Context, input usecase.HolidaySearcherInput) (output *usecase.HolidaySearcherOutput, err error) {
+func (b *holidayBlocImpl) Search(
+	ctx context.Context,
+	input usecase.HolidaySearcherInput,
+) (
+	output *usecase.HolidaySearcherOutput,
+	err error,
+) {
 	return b.searchUsecase.Execute(ctx, input)
 }
