@@ -7,7 +7,7 @@ require (
 	github.com/gocarina/gocsv v0.0.0-20231116093920-b87c2d0e983a
 	github.com/huandu/go-sqlbuilder v1.26.0
 	github.com/jmoiron/sqlx v1.3.5
-	github.com/usk81/ashihara/shared v0.0.1
+	github.com/usk81/ashihara/shared v0.0.2
 	github.com/usk81/aveo v0.0.2
 	github.com/usk81/toolkit/pointer v0.0.1
 	golang.org/x/text v0.14.0

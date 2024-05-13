@@ -32,8 +32,8 @@ github.com/sethvargo/go-envconfig v0.9.0 h1:Q6FQ6hVEeTECULvkJZakq3dZMeBQ3JUpcKMf
 github.com/sethvargo/go-envconfig v0.9.0/go.mod h1:Iz1Gy1Sf3T64TQlJSvee81qDhf7YIlt8GMUX6yyNFs0=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
-github.com/usk81/ashihara/shared v0.0.1 h1:Q7Of2ajGBlOn7qZFqFnK4x+zSOPAuljiqlLrZ00n/gE=
-github.com/usk81/ashihara/shared v0.0.1/go.mod h1:YwZ82u4/wuMudnjoyZpq3VOMKVPQKKiICo3c8jOA3GU=
+github.com/usk81/ashihara/shared v0.0.2 h1:2HVBqgdDab5rhxQcAKbYkbUXxDNtq1+jwMsqle5NwsQ=
+github.com/usk81/ashihara/shared v0.0.2/go.mod h1:YwZ82u4/wuMudnjoyZpq3VOMKVPQKKiICo3c8jOA3GU=
 github.com/usk81/aveo v0.0.2 h1:P8PK3aRItC4594byXIcXkvLWfjvR2LNGApjlNNNiFps=
 github.com/usk81/aveo v0.0.2/go.mod h1:raSuUHyn4r0P4rhDulb69tGVdh9EX75y6vl3i0ATTrg=
 github.com/usk81/toolkit/pointer v0.0.1 h1:xfvoK9TQiqQVbR3IhjwRyW6iMOFo5yvNiHr4dfLdhVw=
