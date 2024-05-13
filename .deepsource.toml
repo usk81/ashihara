@@ -5,9 +5,11 @@ name = "go"
 
   [analyzers.meta]
   import_root = "github.com/usk81/ashihara/shared"
+  dependencies_vendored = false
 
 [[analyzers]]
 name = "go"
 
   [analyzers.meta]
   import_root = "github.com/usk81/ashihara/service/holidays"
+  dependencies_vendored = false
