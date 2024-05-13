@@ -4,10 +4,7 @@ version = 1
 name = "go"
 
   [analyzers.meta]
-  import_root = "github.com/usk81/ashihara/shared"
-
-[[analyzers]]
-name = "go"
-
-  [analyzers.meta]
-  import_root = "github.com/usk81/ashihara/service/holidays"
+  import_paths = [
+    "github.com/usk81/ashihara/shared",
+    "github.com/usk81/ashihara/service/holidays"
+  ]
