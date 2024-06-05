@@ -10,7 +10,7 @@ require (
 	github.com/usk81/ashihara/shared v0.0.1
 	github.com/usk81/aveo v0.0.2
 	github.com/usk81/toolkit/pointer v0.0.1
-	golang.org/x/text v0.14.0
+	golang.org/x/text v0.16.0
 )
 
 require (
